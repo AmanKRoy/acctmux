@@ -1,0 +1,7 @@
+{
+  "clientSecret": "~/.config/google-workspace-mcp/credentials.json",
+  "accounts": [
+    { "label": "default", "profile": null, "email": "you@example.com", "source": "~/.config/google-workspace-mcp" },
+    { "label": "ai", "profile": "ai", "email": "second@example.com", "source": "~/.config/google-workspace-mcp/profiles/ai" }
+  ]
+}

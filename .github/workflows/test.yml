@@ -1,0 +1,81 @@
+name: test
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm test
+      - name: pack and install smoke test
+        run: |
+          d=$(mktemp -d)
+          npm pack --pack-destination "$d" --silent
+          cd "$d" && npm init -y >/dev/null && npm install --no-audit --no-fund ./acctmux-*.tgz
+          ./node_modules/.bin/acctmux --version
+          ./node_modules/.bin/acctmux --help
+          # no config file: must reach config loading through lib/ and print the example
+          HOME="$d" ./node_modules/.bin/acctmux 2>err.log || test $? -eq 1
+          grep -q "no config file" err.log
+
+  newest-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - run: npm ci --no-audit --no-fund
+      - name: install the newest published MCP SDK (lockfile untouched)
+        run: |
+          npm install --no-save --no-audit --no-fund @modelcontextprotocol/server@latest @modelcontextprotocol/client@latest @modelcontextprotocol/node@latest
+          npm ls @modelcontextprotocol/server @modelcontextprotocol/client @modelcontextprotocol/node
+          git diff --exit-code package.json package-lock.json
+      - run: npm test
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - name: lint the launchd plist
+        run: plutil -lint packaging/dev.acctmux.plist
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: build the image
+        run: docker build -f packaging/Dockerfile -t acctmux:ci .
+      - name: run it with the fake upstream on a Unix socket and send requests
+        run: |
+          d=$(mktemp -d)
+          mkdir -p "$d/run"
+          chmod 777 "$d/run"
+          echo '{"tcp":false,"socket":"/run/acctmux/acctmux.sock","upstreams":[{"name":"fk","command":"node","args":["/fake/fake-upstream.mjs"],"accounts":{"a":{"env":{"FAKE_USER":"a"}}},"defaultAccount":"a"}]}' > "$d/config.json"
+          docker run -d --name acctmux-ci -v "$d/config.json:/cfg/config.json:ro" -v "$PWD/tests:/fake:ro" -v "$d/run:/run/acctmux" -e ACCTMUX_CONFIG=/cfg/config.json acctmux:ci
+          for i in $(seq 1 30); do test -S "$d/run/acctmux.sock" && break; sleep 1; done
+          test "$(docker exec acctmux-ci id -u)" != 0
+          sudo chmod 666 "$d/run/acctmux.sock"
+          H='Content-Type: application/json'
+          A='Accept: application/json, text/event-stream'
+          curl -sf --unix-socket "$d/run/acctmux.sock" -H "$H" -H "$A" -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' http://localhost/mcp | grep -q whoami
+          curl -sf --unix-socket "$d/run/acctmux.sock" -H "$H" -H "$A" -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"whoami","arguments":{}}}' http://localhost/mcp | grep -qF 'user\":\"a'
+          docker stop acctmux-ci
+          test "$(docker inspect acctmux-ci --format '{{.State.ExitCode}}')" = 0

@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest a change or an addition
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the situation first, then the change you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What did you try instead?
+      description: Config options, other tools, or a workaround you use today.
+  - type: input
+    id: upstream
+    attributes:
+      label: Which upstream MCP server is involved, if any?

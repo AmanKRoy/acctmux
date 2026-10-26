@@ -1,0 +1,15 @@
+[Unit]
+Description=acctmux: multi-account MCP router (loopback only, lazy per-account children)
+
+[Service]
+Type=simple
+# Adjust to where node and acctmux live (npm install -g acctmux, or a git checkout). A copy of router.mjs needs its lib/ directory beside it.
+# PATH is replaced, not extended: add the directories holding node, npx or uvx (mise, nvm, ~/.cargo) for your upstreams.
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin
+ExecStart=/usr/bin/env node %h/.local/share/acctmux/router.mjs
+Restart=on-failure
+RestartSec=5
+MemoryMax=1200M
+
+[Install]
+WantedBy=default.target

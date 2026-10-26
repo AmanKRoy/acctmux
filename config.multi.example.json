@@ -1,0 +1,55 @@
+{
+  "upstreams": [
+    {
+      "name": "gw",
+      "command": "~/.local/share/mcp-servers/google-workspace/node_modules/.bin/google-workspace-mcp",
+      "env": {
+        "GOOGLE_WORKSPACE_SERVICES": "drive,gmail,calendar",
+        "BROWSER": "true",
+        "XDG_CURRENT_DESKTOP": "X-Generic"
+      },
+      "authRequired": {"match": "AUTHENTICATION REQUIRED|Starting authentication flow", "message": "Account \"{account}\" needs re-authentication (token revoked or expired). Run `google-workspace-mcp auth` (add `--profile {account}` for a non-default profile)."},
+      "envPass": "^(PATH|HOME|USER|LANG|XDG_.*|GOOGLE_.*)$",
+      "profileEnv": "GOOGLE_WORKSPACE_MCP_PROFILE",
+      "accounts": {
+        "root": "~/.config/google-workspace-mcp",
+        "marker": "tokens.json",
+        "profilesDir": "profiles"
+      },
+      "warmup": {
+        "tool": "get_storage_quota"
+      }
+    },
+    {
+      "name": "taylor",
+      "command": "uvx",
+      "args": [
+        "--python",
+        "3.12",
+        "workspace-mcp",
+        "--single-user",
+        "--tools",
+        "gmail",
+        "drive",
+        "calendar"
+      ],
+      "env": {
+        "GOOGLE_CLIENT_SECRET_PATH": "~/.config/acctmux/client_secret.json",
+        "BROWSER": "true"
+      },
+      "accounts": {
+        "work": {
+          "env": {
+            "WORKSPACE_MCP_CREDENTIALS_DIR": "~/.config/acctmux/taylor/work",
+            "USER_GOOGLE_EMAIL": "you@example.com"
+          }
+        }
+      },
+      "defaultAccount": "work",
+      "authRequired": {
+        "resultMatch": "ACTION REQUIRED: Google Authentication Needed",
+        "message": "Account {account} needs a Google login for the taylor upstream."
+      }
+    }
+  ]
+}

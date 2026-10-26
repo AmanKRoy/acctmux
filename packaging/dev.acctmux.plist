@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- UNTESTED: written from the launchd.plist(5) keys and checked for well-formedness only; it has never run under launchd (no macOS machine was available). Apple Silicon Homebrew node is /opt/homebrew/bin/node, so adjust the node path and the PATH below (launchd's default PATH has no node or npx, which upstreams started with npx need). Replace YOU, then:
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/dev.acctmux.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>dev.acctmux</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/node</string>
+    <string>/Users/YOU/.local/share/acctmux/router.mjs</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardErrorPath</key><string>/Users/YOU/Library/Logs/acctmux.log</string>
+</dict>
+</plist>

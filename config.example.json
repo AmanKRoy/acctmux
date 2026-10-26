@@ -1,0 +1,37 @@
+{
+  "upstreams": [
+    {
+      "name": "notion",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@notionhq/notion-mcp-server"
+      ],
+      "envPass": "^(PATH|HOME|USER|LANG|LC_.*|TZ|XDG_.*|NOTION_.*)$",
+      "accounts": {
+        "work": {
+          "env": {
+            "NOTION_TOKEN": "ntn_work_token_here"
+          }
+        },
+        "personal": {
+          "env": {
+            "NOTION_TOKEN": "ntn_personal_token_here"
+          }
+        }
+      },
+      "defaultAccount": "work",
+      "requireAccount": true,
+      "selectorDescription": "Notion workspace to use",
+      "policy": {
+        "personal": {
+          "deny": [
+            "API-patch-page",
+            "API-post-page",
+            "API-patch-block-children"
+          ]
+        }
+      }
+    }
+  ]
+}

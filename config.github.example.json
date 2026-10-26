@@ -1,0 +1,20 @@
+{
+  "upstreams": [
+    {
+      "name": "github",
+      "command": "sh",
+      "args": [
+        "-c",
+        "GITHUB_PERSONAL_ACCESS_TOKEN=\"$(cat \"$HOME/.config/acctmux/creds/github-{account}.token\")\" exec github-mcp-server stdio"
+      ],
+      "envPass": "^(PATH|HOME|USER|LANG|XDG_.*)$",
+      "accounts": ["main"],
+      "defaultAccount": "main",
+      "policy": {
+        "*": {
+          "deny": ["delete_file", "merge_pull_request"]
+        }
+      }
+    }
+  ]
+}

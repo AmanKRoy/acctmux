@@ -1,0 +1,43 @@
+{
+  "upstreams": [
+    {
+      "name": "tavily",
+      "command": "sh",
+      "args": [
+        "-c",
+        "TAVILY_API_KEY=\"$(cat \"$HOME/.config/acctmux/creds/tavily-{account}.key\")\" exec npx -y tavily-mcp@0.2.22"
+      ],
+      "envPass": "^(PATH|HOME|USER|LANG|XDG_.*)$",
+      "accounts": [
+        "sunny",
+        "product",
+        "ai"
+      ],
+      "defaultAccount": "auto",
+      "pools": {
+        "auto": {
+          "members": [
+            "sunny",
+            "product",
+            "ai"
+          ],
+          "strategy": "most-remaining",
+          "failoverMatch": "This request exceeds (your plan's set usage limit|the pay-as-you-go limit)",
+          "cooldownMs": 3600000,
+          "tools": [
+            "tavily_search",
+            "tavily_extract",
+            "tavily_map",
+            "tavily_crawl"
+          ],
+          "usage": {
+            "url": "https://api.tavily.com/usage",
+            "keyFile": "~/.config/acctmux/creds/tavily-{account}.key",
+            "used": "account.plan_usage",
+            "limit": "account.plan_limit"
+          }
+        }
+      }
+    }
+  ]
+}

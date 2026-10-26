@@ -1,0 +1,38 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: The smallest config that shows it (remove tokens, keys and account names you do not want to share).
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Router log
+      description: The relevant lines from stderr or `journalctl --user -u acctmux`. Check them for secrets first; a failed child start logs its last stderr.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: acctmux version
+      description: Output of `acctmux --version`
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Node version, OS, upstream server and version
+      placeholder: "Node 24.1, Arch Linux, @dguido/google-workspace-mcp 3.4.4"
+    validations:
+      required: true

@@ -1,0 +1,58 @@
+{
+  "name": "acctmux",
+  "version": "0.1.0",
+  "description": "Multi-account router for MCP servers: one HTTP endpoint, lazy per-account children, policy, account pools",
+  "license": "Apache-2.0",
+  "author": "Aman K Roy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmanKRoy/acctmux.git"
+  },
+  "homepage": "https://github.com/AmanKRoy/acctmux#readme",
+  "bugs": {
+    "url": "https://github.com/AmanKRoy/acctmux/issues"
+  },
+  "type": "module",
+  "bin": {
+    "acctmux": "router.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "router.mjs",
+    "lib/",
+    "config.*.json",
+    "docs/ARCHITECTURE.md",
+    "docs/CONFIG.md",
+    "docs/SETUP-FOR-AGENTS.md",
+    "scripts/dguido-to-taylor.mjs",
+    "systemd/",
+    "packaging/",
+    "assets/",
+    "LICENSE",
+    "NOTICE",
+    "CHANGELOG.md",
+    "docs/benchmarks/*.md"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "router",
+    "multi-account"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "eslint": "9.39.5",
+    "globals": "17.13.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@modelcontextprotocol/node": "^2.1.2",
+    "@modelcontextprotocol/server": "^2.4.0"
+  }
+}
