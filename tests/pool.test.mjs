@@ -41,6 +41,14 @@ describe("pool selection", () => {
     assert.equal(memberState(s, "b", "search", Date.now(), p, TTL), null);
   });
 
+  test("a member with fewer credits left than minRemaining is skipped", () => {
+    const s = st(), p = pool({ usage: { url: "https://x.test/u", keyFile: "/k/{account}", remaining: "r", limit: "l", minRemaining: 10, skipAbovePct: 100 } });
+    s.usage.set("a", { used: 995, limit: 1000, at: 0 });
+    s.usage.set("b", { used: 989, limit: 1000, at: 0 });
+    assert.equal(memberState(s, "a", "search", Date.now(), p, TTL).why, "low");
+    assert.equal(memberState(s, "b", "search", Date.now(), p, TTL), null);
+  });
+
   test("noMemberMessage names the earliest recovery when every member is cooling", () => {
     const s = st(), p = pool(), now = Date.now();
     for (const [m, d] of [["a", 60000], ["b", 30000], ["c", 90000]]) s.cool.set(m, { until: now + d, probing: false });
