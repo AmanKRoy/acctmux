@@ -254,6 +254,21 @@ describe("policy", () => {
     assert.match(bad.log(), /unknown preset "nope"; known: google-workspace/);
   });
 
+  test("instructionsOverride replaces the upstream instructions in initialize", async () => {
+    const r = await startRouter({ upstreams: [fake("fk", { instructionsOverride: "Pick an account." })] });
+    const init = await r.rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "t", version: "1" } });
+    assert.equal(init.result.instructions, "Pick an account.");
+  });
+
+  test("instructionsOverride must be a string", () => {
+    const cfgPath = path.join(TMP, "bad-instructions.json");
+    fs.writeFileSync(cfgPath, JSON.stringify({ port: 1, upstreams: [fake("fk", { instructionsOverride: 5 })] }));
+    fs.chmodSync(cfgPath, 0o600);
+    const r = spawnSync(process.execPath, [ROUTER], { env: { PATH: process.env.PATH, ACCTMUX_CONFIG: cfgPath }, encoding: "utf8", timeout: 10000 });
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /"instructionsOverride" must be a string/);
+  });
+
   test("requireAccount makes the selector required and refuses calls without it", async () => {
     const r = await startRouter({ upstreams: [fake("fk", { requireAccount: true })] });
     const t = (await r.tools()).find((x) => x.name === "whoami");

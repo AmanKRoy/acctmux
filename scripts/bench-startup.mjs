@@ -7,7 +7,7 @@ import net from "node:net";
 import fs from "node:fs";
 import path from "node:path";
 
-const REPO = "/home/Roy/Claude/Projects/gw-mcp-router";
+const REPO = "/home/Roy/Claude/Projects/acctmux";
 const FAKE = path.join(REPO, "tests/fake-upstream.mjs");
 const { values: o } = parseArgs({ options: { kind: { type: "string" }, reps: { type: "string", default: "5" }, port: { type: "string" }, work: { type: "string" }, out: { type: "string" }, idle: { type: "string", default: "2000" } } });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

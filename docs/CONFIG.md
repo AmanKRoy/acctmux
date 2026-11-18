@@ -42,6 +42,7 @@ The `github` preset also denies `delete_file` and `merge_pull_request`; set `pol
 - `defaultAccount`: account used when the caller omits the selector, and the one that runs without `profileEnv` (default `"default"`). Falls back to the first account.
 - `profileEnv`: optional. Omit it for upstreams that select the account through `env` instead.
 - `selectorDescription`: description text on the added argument.
+- `instructionsOverride`: optional string. Replaces the upstream's own server `instructions` in the router's `initialize` reply (prefixed with `[name]` when several upstreams run). Use it to shorten a long upstream prompt or to tell the model how to pick an account.
 - `warmup`: `{tool, arguments?}`. Called once after a child starts and before the first forwarded call. Use a cheap tool that forces the upstream to authenticate.
   Needed for google-workspace-mcp, whose `get_status` reports a false error on a cold child. Failure is logged and ignored.
 - `authRequired`: `{match?, resultMatch?, message}`. `resultMatch` is a regex tested against the text of an `isError` tool result, for upstreams that report a missing login in the result

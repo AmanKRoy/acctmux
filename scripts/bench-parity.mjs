@@ -10,7 +10,7 @@ while (!got.has(1)) await sleep(20); w({ jsonrpc: "2.0", method: "notifications/
 while (!got.has(2)) await sleep(20); up.kill();
 const upTools = got.get(2).result.tools;
 fs.writeFileSync(process.argv[2] + "/cfg-parity.json", JSON.stringify({ port: 19600, upstreams: [{ preset: "google-workspace", command: GW }] }));
-const r = spawn(process.execPath, ["/home/Roy/Claude/Projects/gw-mcp-router/router.mjs"], { env: { ...env, ACCTMUX_CONFIG: process.argv[2] + "/cfg-parity.json" }, stdio: "ignore" });
+const r = spawn(process.execPath, ["/home/Roy/Claude/Projects/acctmux/router.mjs"], { env: { ...env, ACCTMUX_CONFIG: process.argv[2] + "/cfg-parity.json" }, stdio: "ignore" });
 const H = { "Content-Type": "application/json", Accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18" };
 let list; for (let k = 0; k < 100 && !list; k++) { await sleep(200); try { const res = await fetch("http://[::1]:19600/mcp", { method: "POST", headers: H, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list", params: {} }) }); const t = await res.text(); const line = t.split("\n").find((l) => l.startsWith("data:")); const m = JSON.parse(line ? line.slice(5) : t); if (m.result?.tools?.length) list = m.result.tools; } catch { /* ignore */ } }
 r.kill("SIGTERM");
