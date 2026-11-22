@@ -1,6 +1,6 @@
 {
   "name": "acctmux",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Multi-account router for MCP servers: one endpoint for several Gmail, Notion, GitHub or API-key accounts, with per-account tool policy and key pools",
   "license": "Apache-2.0",
   "author": "Aman K Roy",

@@ -3,12 +3,12 @@
   "name": "io.github.AmanKRoy/acctmux",
   "description": "Multi-account router for MCP servers: one endpoint, lazy per-account workers, tool policy.",
   "repository": { "url": "https://github.com/AmanKRoy/acctmux", "source": "github" },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "acctmux",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "transport": { "type": "stdio" }
     }
   ]

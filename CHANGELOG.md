@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [SemVer](https://semver.org/).
 
+## [0.1.2] - 2026-11-22
+
+### Changed
+- Releases are now published from GitHub Actions with npm trusted publishing (OIDC) and provenance.
+
 ## [0.1.1] - 2026-11-22
 
 ### Changed
