@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { stripAlwaysLoad } from "../lib/surface.mjs";
+import { stripAlwaysLoad } from "../lib/util.mjs";
 
 test("stripAlwaysLoad removes anthropic/alwaysLoad and drops empty _meta", () => {
   assert.deepEqual(stripAlwaysLoad({ name: "a", _meta: { "anthropic/alwaysLoad": true } }), { name: "a" });
