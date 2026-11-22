@@ -30,6 +30,14 @@
 
 > **Status: 0.1.0, experimental.** Tested mainly on Linux and used by the author. It is not yet a mature, independently audited product. See [known limitations](docs/LIMITATIONS.md).
 
+## Who needs this
+
+- You use **two or more Gmail, Calendar or Drive accounts** (work, personal, a backup) from Claude Code, Codex or OpenCode and are tired of duplicate MCP entries and the processes behind them.
+- You rotate **several API keys** (Tavily, for example) and want automatic failover when one runs out of quota.
+- You want to **deny dangerous tools per account** (delete, share, merge) without forking the upstream server.
+
+If you have one account per service and one client, you do not need it.
+
 ## The problem
 
 Many MCP servers expose one account per process. Connect two Google accounts, two Notion workspaces, or several API keys in multiple coding-agent sessions, and the naive setup duplicates both processes and tool schemas.
@@ -304,6 +312,10 @@ Contributions and bug reports are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.m
 - [Review log](docs/REVIEW.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Changelog](CHANGELOG.md)
+
+## Support the project
+
+If acctmux saved you time, you can [star the repo](https://github.com/AmanKRoy/acctmux) so others find it. Issues with your setup are welcome too; they shape the roadmap.
 
 ## License
 

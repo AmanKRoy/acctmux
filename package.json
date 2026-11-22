@@ -1,7 +1,7 @@
 {
   "name": "acctmux",
-  "version": "0.1.0",
-  "description": "Multi-account router for MCP servers: one HTTP endpoint, lazy per-account children, policy, account pools",
+  "version": "0.1.1",
+  "description": "Multi-account router for MCP servers: one endpoint for several Gmail, Notion, GitHub or API-key accounts, with per-account tool policy and key pools",
   "license": "Apache-2.0",
   "author": "Aman K Roy",
   "repository": {
@@ -38,8 +38,18 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
-    "router",
-    "multi-account"
+    "mcp-router",
+    "mcp-gateway",
+    "mcp-proxy",
+    "multi-account",
+    "claude-code",
+    "codex",
+    "opencode",
+    "ai-agents",
+    "gmail",
+    "google-workspace",
+    "tavily",
+    "api-key-rotation"
   ],
   "scripts": {
     "test": "node --test tests/*.test.mjs",
@@ -54,5 +64,6 @@
     "@modelcontextprotocol/client": "^2.4.0",
     "@modelcontextprotocol/node": "^2.1.2",
     "@modelcontextprotocol/server": "^2.4.0"
-  }
+  },
+  "mcpName": "io.github.AmanKRoy/acctmux"
 }

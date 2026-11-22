@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [SemVer](https://semver.org/).
 
+## [0.1.1] - 2026-11-22
+
+### Changed
+- Package metadata: clearer description and more keywords for npm search, `mcpName` for the official MCP Registry, `server.json`.
+- README: "Who needs this" section; docs: optional, user-initiated star mention in the agent setup guide.
+
 ## [0.1.0] - 2026-10-26
 
 First tagged version. Earlier work was done under the working name `gw-mcp-router`.
